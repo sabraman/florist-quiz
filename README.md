@@ -13,7 +13,7 @@ Flower identification trainer with physics-based animations and iOS-style UX.
 
 ## Tech Stack
 
-- **Framework**: Next.js 15 (Turbopack)
+- **Framework**: Next.js 16 (Turbopack)
 - **Language**: TypeScript
 - **Styling**: TailwindCSS 4
 - **Animation**: Motion for React (`motion/react`)
