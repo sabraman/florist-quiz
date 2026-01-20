@@ -62,7 +62,7 @@ export function useQuizLogic() {
     const onCorrect = () => setHasChecked(true);
 
     // Initialize mode-specific hooks
-    const mc = useQuizMultipleChoice(correctFlower, hasChecked, onCorrect);
+    const mc = useQuizMultipleChoice(correctFlower, hasChecked, onCorrect, mode);
     const spelling = useQuizSpelling(correctFlower, hasChecked, onCorrect);
     const matcher = useQuizMatcher(hasChecked, onCorrect);
     const swipes = useQuizSwipes(correctFlower, hasChecked, onCorrect);
