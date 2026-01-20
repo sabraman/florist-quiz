@@ -61,7 +61,7 @@ export default function SwipeCard({ flower, label, onSwipe }: SwipeCardProps) {
                 </div>
 
                 <div className="absolute bottom-0 left-0 right-0 p-8 flex flex-col items-center gap-2">
-                    <p className="text-zinc-400 text-xs font-black uppercase tracking-widest">Is this a</p>
+
                     <h2 className="text-4xl font-black text-white italic uppercase tracking-tighter text-center leading-none">
                         {label}
                     </h2>

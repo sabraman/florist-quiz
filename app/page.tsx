@@ -74,6 +74,7 @@ export default function Home() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
                         className="min-h-screen flex flex-col"
                     >
                         <TopBar />
@@ -85,7 +86,7 @@ export default function Home() {
                                         initial={{ y: 20, opacity: 0 }}
                                         animate={{ y: 0, opacity: 1 }}
                                         exit={{ y: -20, opacity: 0 }}
-                                        transition={{ duration: 0.4, ease: "easeOut" }}
+                                        transition={{ duration: 0.2, ease: "easeOut", delay: 0.1 }}
                                     >
                                         <Dashboard />
                                     </motion.div>
