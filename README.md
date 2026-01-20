@@ -1,15 +1,15 @@
 # Florist Quiz
 
-A premium, mobile-first flower identification trainer with physics-based animations and iOS-inspired UX.
+Flower identification trainer with physics-based animations and iOS-style UX.
 
 ## Features
 
-- **Gamified Learning**: Various quiz modes including Multiple Choice, Spelling, Matcher, and Pairs.
-- **Interactive UI**: Buttery-smooth transitions powered by `motion/react`.
-- **iOS Gestures**: Responsive left-edge back swipe for intuitive navigation.
-- **Full Catalog**: A complete dictionary of flowers with pricing and high-quality photography.
-- **OLED Optimized**: A true black AMOLED theme for visual excellence and battery efficiency.
-- **PWA Ready**: Offline support and installable as a native-like mobile app.
+- **Gamified Learning**: Multiple Choice, Spelling, Matcher, and Pairs quiz modes.
+- **Interactive UI**: Fluid transitions powered by `motion/react`.
+- **iOS Gestures**: Left-edge back swipe navigation.
+- **Catalog**: Flower dictionary with pricing and photography.
+- **OLED Mode**: True black AMOLED theme.
+- **PWA**: Offline support and mobile installation.
 
 ## Tech Stack
 
