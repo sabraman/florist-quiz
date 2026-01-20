@@ -17,7 +17,18 @@ export function useQuizPairs(hasChecked: boolean, onCorrect: () => void): PairSt
 
     const generate = useCallback(() => {
         const shuffled = [...flowers].sort(() => 0.5 - Math.random());
-        const selected = shuffled.slice(0, 7);
+        const uniquePriceFlowers: Flower[] = [];
+        const seenPrices = new Set<number>();
+
+        for (const flower of shuffled) {
+            if (!seenPrices.has(flower.price)) {
+                uniquePriceFlowers.push(flower);
+                seenPrices.add(flower.price);
+            }
+            if (uniquePriceFlowers.length === 7) break;
+        }
+
+        const selected = uniquePriceFlowers;
         setLeftOptions([...selected].sort(() => 0.5 - Math.random()));
         setRightOptions([...selected].sort(() => 0.5 - Math.random()));
         setClearedIds([]);
