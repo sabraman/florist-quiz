@@ -34,7 +34,7 @@ export default function Home() {
                         dragElastic={{ left: 0, right: 0.5 }}
                         onDragEnd={handleDragEnd}
                         style={{ x }}
-                        className="fixed inset-y-0 left-0 w-12 z-[100] cursor-grab active:cursor-grabbing"
+                        className="fixed inset-y-0 left-0 w-4 z-[100] cursor-grab active:cursor-grabbing"
                     />
                 )}
             </AnimatePresence>
