@@ -1,65 +1,100 @@
-import Image from "next/image";
+"use client";
+
+import { useQuizStore } from "@/store/useQuizStore";
+import Dashboard from "@/components/duolingo/Dashboard";
+import TopBar from "@/components/duolingo/TopBar";
+import QuizSession from "@/components/quiz/QuizSession";
+import Catalog from "@/components/quiz/Catalog";
+import { motion, AnimatePresence, useMotionValue, useTransform } from "motion/react";
 
 export default function Home() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+    const { mode, setMode } = useQuizStore();
+    const x = useMotionValue(0);
+    const opacity = useTransform(x, [0, 100], [0, 0.5]);
+
+    const handleDragEnd = (_: any, info: any) => {
+        // iOS style back swipe: drag from left side (>80px) with positive velocity
+        if (info.offset.x > 80 && info.velocity.x > 0) {
+            setMode(null);
+        }
+        x.set(0);
+    };
+
+    return (
+        <main className="min-h-screen bg-black text-white selection:bg-green-500 selection:text-black relative overflow-hidden touch-none">
+            {/* Edge Swipe Gesture Target (iOS Style) */}
+            <AnimatePresence>
+                {mode && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        drag="x"
+                        dragConstraints={{ left: 0, right: 0 }}
+                        dragElastic={{ left: 0, right: 0.5 }}
+                        onDragEnd={handleDragEnd}
+                        style={{ x }}
+                        className="fixed inset-y-0 left-0 w-12 z-[100] cursor-grab active:cursor-grabbing"
+                    />
+                )}
+            </AnimatePresence>
+
+            {/* Visual indicator for back swipe */}
+            <motion.div
+                style={{ opacity }}
+                className="fixed inset-y-0 left-0 w-1 bg-white z-[99] pointer-events-none"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+
+            <AnimatePresence mode="wait">
+                {mode && mode !== "catalog" ? (
+                    <motion.div
+                        key="quiz"
+                        initial={{ x: "100%", opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        exit={{ x: "100%", opacity: 0 }}
+                        transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                        className="fixed inset-0 bg-black text-white z-50 overflow-hidden flex flex-col"
+                    >
+                        <QuizSession />
+                    </motion.div>
+                ) : mode === "catalog" ? (
+                    <motion.div
+                        key="catalog"
+                        initial={{ x: "100%", opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        exit={{ x: "100%", opacity: 0 }}
+                        transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                        className="fixed inset-0 bg-black text-white z-50 overflow-hidden flex flex-col"
+                    >
+                        <Catalog />
+                    </motion.div>
+                ) : (
+                    <motion.div
+                        key="dashboard-wrapper"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="min-h-screen flex flex-col"
+                    >
+                        <TopBar />
+                        <div className="pt-20 px-0 relative z-10 w-full flex-1">
+                            <AnimatePresence mode="wait">
+                                {!mode && (
+                                    <motion.div
+                                        key="dash-content"
+                                        initial={{ y: 20, opacity: 0 }}
+                                        animate={{ y: 0, opacity: 1 }}
+                                        exit={{ y: -20, opacity: 0 }}
+                                        transition={{ duration: 0.4, ease: "easeOut" }}
+                                    >
+                                        <Dashboard />
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </main>
+    );
 }
